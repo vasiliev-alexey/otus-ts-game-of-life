@@ -1,7 +1,9 @@
 name: PR Sanity Check
 
-on: pull_request
-    push
+on:
+  push:
+  pull_request:
+
 jobs:
   lint:
     runs-on: ubuntu-20.04
