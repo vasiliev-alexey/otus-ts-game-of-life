@@ -1,4 +1,4 @@
-import { CellState, Playground, Game } from './CommonTypes.ts';
+import { CellState, Playground, Game } from './CommonTypes';
 
 export class GameEngine implements Game {
   public isGameOver(): boolean {
@@ -16,11 +16,11 @@ export class GameEngine implements Game {
     return this.gameField;
   }
 
-  set gameField(value: number[][]) {
+  set gameField(value: Playground) {
     this.gameField = value;
   }
 
-  private gameField: Playground;
+  // private gameField: Playground;
 
   public constructor(gameField?: Playground, height?: number, weight?: number) {
     if (gameField !== undefined) {
@@ -40,7 +40,7 @@ export class GameEngine implements Game {
     indY: number,
     indX: number,
     currState: CellState,
-    play: Playground,
+    play: Playground
   ): CellState {
     let aliveCtn = 0;
     let curPos = 0;
@@ -49,9 +49,9 @@ export class GameEngine implements Game {
       for (let x = indX - 1; x <= indX + 1; x += 1) {
         curPos += 1;
         if (
-          !(play[y] === undefined || play[y][x] === undefined)
-          && play[y][x] === 1
-          && curPos !== 5
+          !(play[y] === undefined || play[y][x] === undefined) &&
+          play[y][x] === 1 &&
+          curPos !== 5
         ) {
           aliveCtn += 1;
         }
@@ -67,11 +67,13 @@ export class GameEngine implements Game {
     // const upperY = this.gameField.length-1;
     // const upperX = this.gameField[0].length-1;
 
-    this.gameField = this.gameField.map((row, indY, arr) => row.map((c, indX) => {
-      const newCellState = GameEngine.newState(indY, indX, c, arr);
+    this.gameField = this.gameField.map((row, indY, arr) =>
+      row.map((c, indX) => {
+        const newCellState = GameEngine.newState(indY, indX, c, arr);
 
-      return newCellState;
-    }));
+        return newCellState;
+      })
+    );
 
     return this.gameField;
   }
@@ -84,7 +86,7 @@ export class GameEngine implements Game {
       this.gameField.splice(height, originalHeight);
     } else {
       for (let r = originalHeight; r < height; r += 1) {
-        this.gameField.splice(height, 0, Array<number>(width).fill(0));
+        this.gameField.splice(height, 0, Array<CellState>(width).fill(0));
       }
     }
     if (width < originalWeight) {

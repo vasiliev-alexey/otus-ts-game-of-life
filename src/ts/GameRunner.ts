@@ -1,7 +1,6 @@
-import { GamePresenter } from './GamePresenter.ts';
-import { GameEngine } from './GameEngine.ts';
+import { GamePresenter } from './GamePresenter';
+import { GameEngine } from './GameEngine';
 
-// eslint-disable-next-line import/prefer-default-export
 export class GameRunner {
   constructor(rootElement: HTMLDivElement) {
     const gameEngine = new GameEngine(undefined, 10, 10);

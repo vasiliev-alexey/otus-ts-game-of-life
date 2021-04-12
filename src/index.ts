@@ -1,5 +1,5 @@
 import './css/main.css';
-import { GameRunner } from './ts/GameRunner.ts';
+import { GameRunner } from './ts/GameRunner';
 
 const gameRoot = document.querySelector<HTMLDivElement>('.gameRoot');
 if (gameRoot !== null) {

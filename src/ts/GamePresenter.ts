@@ -1,4 +1,4 @@
-import { CellState, Game, Playground } from './CommonTypes.ts';
+import { Game, Playground } from './CommonTypes';
 
 enum CellClass {
   LIVE = 'cell-live',
@@ -18,7 +18,7 @@ export class GamePresenter implements GameView {
 
   public constructor(
     private rootElement: HTMLDivElement,
-    private gameEngine: Game,
+    private gameEngine: Game
   ) {
     this.gameTable = document.createElement('table');
     this.gameTableBody = this.gameTable.createTBody();
@@ -53,7 +53,7 @@ export class GamePresenter implements GameView {
 
     gameArray.forEach((r, index: number) => {
       const row = this.gameTableBody.insertRow(index);
-      r.forEach((cellState: CellState) => {
+      r.forEach((cellState) => {
         const cell = row.insertCell();
 
         cell.classList.add(cellState === 0 ? CellClass.LIVE : CellClass.DEAD);

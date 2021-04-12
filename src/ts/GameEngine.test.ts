@@ -1,15 +1,16 @@
-import { GameEngine } from './GameEngine.ts';
-import log from './Logger.ts';
+import { GameEngine } from './GameEngine';
+import log from './Logger';
+import { CellState, Playground } from './CommonTypes';
 
 function getInitialArray(
   rows: number,
   cols: number,
-  initialValue?: number,
-): number[][] {
-  const rez: number[][] = [];
+  initialValue?: CellState
+): Playground {
+  const rez: Playground = [];
 
   for (let i = 0; i < rows; i += 1) {
-    rez.push(Array<number>(cols).fill(initialValue ?? 0));
+    rez.push(Array<CellState>(cols).fill(initialValue ?? 0));
   }
   return rez;
 }
