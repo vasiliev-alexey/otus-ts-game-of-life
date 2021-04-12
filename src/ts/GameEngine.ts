@@ -11,16 +11,15 @@ export class GameEngine implements Game {
     }
     return this.gameField;
   }
+  private _gameField: Playground = [];
 
   get gameField(): Playground {
-    return this.gameField;
+    return this._gameField;
   }
 
   set gameField(value: Playground) {
-    this.gameField = value;
+    this._gameField = value;
   }
-
-  // private gameField: Playground;
 
   public constructor(gameField?: Playground, height?: number, weight?: number) {
     if (gameField !== undefined) {
