@@ -1,31 +1,18 @@
-export type cellState = 0 | 1;
-export type playground = cellState[][];
-
-export interface Game {
-  gameField: playground;
-
-  resizeGameField(height: number, width: number): playground;
-
-  togglePoint(posY: number, posX: number): playground;
-
-  isGameOver(): boolean;
-
-  stepGame(): playground;
-}
+import { CellState, Playground, Game } from './CommonTypes.ts';
 
 export class GameEngine implements Game {
   public isGameOver(): boolean {
     return this.gameField.every((r) => r.every((el) => el === 0));
   }
 
-  public togglePoint(posY: number, posX: number): playground {
+  public togglePoint(posY: number, posX: number): Playground {
     if (posY < this.gameField.length && posX < this.gameField[posY].length) {
       this.gameField[posY][posX] = this.gameField[posY][posX] === 0 ? 1 : 0;
     }
     return this.gameField;
   }
 
-  get gameField(): playground {
+  get gameField(): Playground {
     return this.gameField;
   }
 
@@ -33,19 +20,28 @@ export class GameEngine implements Game {
     this.gameField = value;
   }
 
-  private gameField: playground;
+  private gameField: Playground;
 
-  public constructor(gameField: playground) {
-    this.gameField = gameField;
+  public constructor(gameField?: Playground, height?: number, weight?: number) {
+    if (gameField !== undefined) {
+      this.gameField = gameField;
+    } else {
+      this.gameField = [];
+
+      for (let i = 0; i < (height ?? 10); i += 1) {
+        this.gameField.push(Array<CellState>(weight ?? 10).fill(0));
+      }
+    }
+
     return this;
   }
 
   private static newState(
     indY: number,
     indX: number,
-    currState: cellState,
-    play: playground,
-  ): cellState {
+    currState: CellState,
+    play: Playground,
+  ): CellState {
     let aliveCtn = 0;
     let curPos = 0;
 
@@ -64,7 +60,7 @@ export class GameEngine implements Game {
     return aliveCtn === 3 || (aliveCtn === 2 && currState === 1) ? 1 : 0;
   }
 
-  public stepGame(): playground {
+  public stepGame(): Playground {
     // - Если клетка жива и у нее 2−3 живых соседа, то она остается живой, иначе умирает.
     // - Если клетка мертва и у нее 3 живых соседа, то она становится живой, иначе остается мертвой.
     //
@@ -80,7 +76,7 @@ export class GameEngine implements Game {
     return this.gameField;
   }
 
-  public resizeGameField(height: number, width: number): playground {
+  public resizeGameField(height: number, width: number): Playground {
     const originalHeight = this.gameField.length;
     const originalWeight = this.gameField[0].length;
 

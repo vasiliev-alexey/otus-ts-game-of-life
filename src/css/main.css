@@ -1,0 +1,17 @@
+.cell-live {
+  background: white;
+}
+.cell-dead {
+  background: black;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+
+table td {
+  border: 1px solid black;
+  width: 1em;
+  height: 1em;
+}

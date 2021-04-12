@@ -15,5 +15,10 @@ module.exports = {
   rules: {
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': ['error'],
+
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
+
+    'import/prefer-default-export': 'off',
   },
 };
