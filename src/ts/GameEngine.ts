@@ -1,9 +1,6 @@
-import { CellState, Playground, Game } from './CommonTypes';
+import { CellState, Playground, Game, GameResult } from './CommonTypes';
 
 export class GameEngine implements Game {
-  public isGameOver(): boolean {
-    return this.gameField.every((r) => r.every((el) => el === 0));
-  }
 
   public togglePoint(posY: number, posX: number): Playground {
     if (posY < this.gameField.length && posX < this.gameField[posY].length) {
@@ -59,22 +56,27 @@ export class GameEngine implements Game {
     return aliveCtn === 3 || (aliveCtn === 2 && currState === 1) ? 1 : 0;
   }
 
-  public stepGame(): Playground {
+  public stepGame(): GameResult {
     // - Если клетка жива и у нее 2−3 живых соседа, то она остается живой, иначе умирает.
     // - Если клетка мертва и у нее 3 живых соседа, то она становится живой, иначе остается мертвой.
     //
     // const upperY = this.gameField.length-1;
     // const upperX = this.gameField[0].length-1;
 
+    let isChanged = false;
+
     this.gameField = this.gameField.map((row, indY, arr) =>
       row.map((c, indX) => {
         const newCellState = GameEngine.newState(indY, indX, c, arr);
 
+        if (newCellState != c) {
+          isChanged = true;
+        }
         return newCellState;
       })
     );
 
-    return this.gameField;
+    return { gameArea: this.gameField, isGameOver: !isChanged };
   }
 
   public resizeGameField(height: number, width: number): Playground {

@@ -26,23 +26,91 @@ export class GamePresenter implements GameView {
 
   private renderActionToolBar(): void {
     const actionDiv: HTMLDivElement = document.createElement('div');
+    actionDiv.classList.add('actionPanel');
 
-    const startButton = document.createElement('button');
-    startButton.innerText = 'Start';
+    const speedRanger = document.createElement('input');
+    speedRanger.type = 'range';
+    speedRanger.step = String(100);
+    speedRanger.max = String(1000);
+    speedRanger.min = String(100);
+    speedRanger.value = '500';
+    speedRanger.defaultValue = '500';
+    speedRanger.id = 'speedRanger';
+
+    speedRanger.addEventListener('change', (e) => {
+      const ranger = e.target as HTMLInputElement;
+
+      this.runGame(+ranger.value);
+    });
+
+    const startButton = document.createElement('input');
+    startButton.type = 'button';
+    startButton.value = 'Start';
     actionDiv.append(startButton);
 
     startButton.addEventListener('click', (ev) => {
       ev.preventDefault();
-      clearInterval(this.intervalHolder);
-      // @ts-ignore
-      this.intervalHolder = setInterval(() => {
-        //   console.log(this.gameEngine.stepGame());
-        this.gameEngine.stepGame();
-        this.renderGameTable();
-      }, 1000);
+      this.runGame(+speedRanger.value);
     });
 
+    /**/
+    const heightSize = document.createElement('input');
+    heightSize.id = 'heightSize';
+    const heightSizeLabel = document.createElement('label');
+    heightSizeLabel.htmlFor = heightSize.id;
+    heightSizeLabel.innerText = 'Высота поля';
+    heightSize.type = 'number';
+    heightSize.value = String(10);
+
+    actionDiv.append(heightSizeLabel);
+    actionDiv.append(heightSize);
+
+    const weightSize = document.createElement('input');
+    weightSize.type = 'number';
+    weightSize.value = String(10);
+    weightSize.id = 'weightSize';
+    const weightSizeLabel = document.createElement('label');
+    weightSizeLabel.htmlFor = weightSize.id;
+    weightSizeLabel.innerText = 'Ширина поля';
+    actionDiv.append(weightSizeLabel);
+    actionDiv.append(weightSize);
+
+    const resizeButton = document.createElement('input');
+    resizeButton.type = 'button';
+    resizeButton.value = 'Resize';
+    actionDiv.append(resizeButton);
+
+    resizeButton.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      // clearInterval(this.intervalHolder);
+      // @ts-ignore
+
+      const w = +weightSize.value;
+      const h = +heightSize.value;
+      console.log('resi');
+      this.gameEngine.resizeGameField(h, w);
+      this.renderGameTable();
+    });
+
+    actionDiv.append(speedRanger);
+
     this.rootElement.append(actionDiv);
+  }
+
+  private runGame(timeout: number): void {
+    clearInterval(this.intervalHolder);
+    // @ts-ignore
+    this.intervalHolder = setInterval(() => {
+      //   console.log(this.gameEngine.stepGame());
+      const rezult = this.gameEngine.stepGame();
+
+      this.renderGameTable();
+
+      if (rezult.isGameOver === true) {
+        alert('game end');
+        clearInterval(this.intervalHolder);
+      }
+    }, timeout);
   }
 
   private renderGameTable(): void {

@@ -1,5 +1,8 @@
 export type CellState = 0 | 1;
 export type Playground = CellState[][];
+
+export type GameResult = { gameArea: Playground; isGameOver: boolean };
+
 export interface Game {
   gameField: Playground;
 
@@ -7,7 +10,5 @@ export interface Game {
 
   togglePoint(posY: number, posX: number): Playground;
 
-  isGameOver(): boolean;
-
-  stepGame(): Playground;
+  stepGame(): GameResult;
 }
