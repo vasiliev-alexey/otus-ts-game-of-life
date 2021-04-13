@@ -53,7 +53,6 @@ export class GamePresenter implements GameView {
       this.runGame(+speedRanger.value);
     });
 
-    /**/
     const heightSize = document.createElement('input');
     heightSize.id = 'heightSize';
     const heightSizeLabel = document.createElement('label');
@@ -82,12 +81,10 @@ export class GamePresenter implements GameView {
 
     resizeButton.addEventListener('click', (ev) => {
       ev.preventDefault();
-      // clearInterval(this.intervalHolder);
-      // @ts-ignore
 
       const w = +weightSize.value;
       const h = +heightSize.value;
-      console.log('resi');
+
       this.gameEngine.resizeGameField(h, w);
       this.renderGameTable();
     });
@@ -101,7 +98,6 @@ export class GamePresenter implements GameView {
     clearInterval(this.intervalHolder);
     // @ts-ignore
     this.intervalHolder = setInterval(() => {
-      //   console.log(this.gameEngine.stepGame());
       const rezult = this.gameEngine.stepGame();
 
       this.renderGameTable();
@@ -130,6 +126,7 @@ export class GamePresenter implements GameView {
   }
 
   public renderInitialPage(): void {
+    console.log("eeeeeeeeeeee")
     const gameField = document.createElement('div');
     this.gameTable.createTHead();
 
@@ -137,13 +134,9 @@ export class GamePresenter implements GameView {
       if (e.target instanceof HTMLTableCellElement) {
         clearInterval(this.intervalHolder);
         const row = e.target.parentNode as HTMLTableRowElement;
-        // e.target.cellIndex;
-        // row.rowIndex;
 
         this.gameEngine.togglePoint(row.rowIndex, e.target.cellIndex);
         this.renderGameTable();
-        // e.target.classList.remove(CellClass.LIVE);
-        // e.target.classList.add(CellClass.DEAD);
       }
     });
 

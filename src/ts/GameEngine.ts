@@ -1,7 +1,6 @@
 import { CellState, Playground, Game, GameResult } from './CommonTypes';
 
 export class GameEngine implements Game {
-
   public togglePoint(posY: number, posX: number): Playground {
     if (posY < this.gameField.length && posX < this.gameField[posY].length) {
       this.gameField[posY][posX] = this.gameField[posY][posX] === 0 ? 1 : 0;

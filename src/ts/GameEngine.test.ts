@@ -78,22 +78,6 @@ describe('GameEngine', () => {
     }
   });
 
-  it('game is over', () => {
-    const gameEngine = new GameEngine(getInitialArray(5, 5));
-    expect(gameEngine.isGameOver).toBeInstanceOf(Function);
-
-    expect(gameEngine.isGameOver()).toEqual(true);
-    gameEngine.togglePoint(1, 1);
-    expect(gameEngine.isGameOver()).toEqual(false);
-    gameEngine.togglePoint(1, 1);
-    expect(gameEngine.isGameOver()).toEqual(true);
-
-    gameEngine.togglePoint(1, 1);
-    gameEngine.togglePoint(2, 2);
-    gameEngine.togglePoint(3, 3);
-    expect(gameEngine.isGameOver()).toEqual(false);
-  });
-
   it('game engine test step', () => {
     const gameEngine = new GameEngine(getInitialArray(5, 5));
     expect(gameEngine.stepGame).toBeInstanceOf(Function);
