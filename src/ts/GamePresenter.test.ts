@@ -1,9 +1,8 @@
 import { GamePresenter } from './GamePresenter';
 
-import { CellState, Game } from './CommonTypes';
+import { Game } from './CommonTypes';
 
-import { mock,  mockDeep } from 'jest-mock-extended';
-
+import { mockDeep } from 'jest-mock-extended';
 
 describe('GamePresenter tests', () => {
   describe('public interface', () => {
@@ -27,12 +26,12 @@ describe('GamePresenter tests', () => {
 
       const mock22 = mockDeep<Game>();
 
-       // @ts-ignore
+      // @ts-ignore
       mock22.gameField.mockReturnValue([]);
 
       const gp = new GamePresenter(dummyEl, mock22);
       gp.renderInitialPage();
-      console.log("ddd")
+      console.log('ddd');
 
       //
       // jest.mock('./GameEngine', () => ({
