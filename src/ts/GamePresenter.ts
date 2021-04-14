@@ -126,7 +126,7 @@ export class GamePresenter implements GameView {
   }
 
   public renderInitialPage(): void {
-    console.log('eeeeeeeeeeee');
+
     const gameField = document.createElement('div');
     this.gameTable.createTHead();
 

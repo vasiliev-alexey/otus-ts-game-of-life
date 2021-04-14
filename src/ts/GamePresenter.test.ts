@@ -1,68 +1,43 @@
-import { GamePresenter } from './GamePresenter';
+import {GamePresenter} from './GamePresenter';
 
-import { Game } from './CommonTypes';
+import {Game} from './CommonTypes';
 
-import { mockDeep } from 'jest-mock-extended';
+import {mock} from 'jest-mock-extended';
+
+
+const initialArray = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+];
 
 describe('GamePresenter tests', () => {
-  describe('public interface', () => {
-    it('is a class', () => {
-      expect(GamePresenter).toBeInstanceOf(Function);
+    describe('public interface', () => {
+        it('is a class', () => {
+            expect(GamePresenter).toBeInstanceOf(Function);
+        });
     });
-  });
 
-  describe('public constructor', () => {
-    it('is a class44', () => {
-      const dummyEl = document.createElement('div');
+    describe('Test render page', () => {
+        it('init controller', () => {
+            const dummyEl = document.createElement('div');
 
-      //const mock2 = mock<Game>();
+            const mockedGame = mock<Game>();
 
-      jest.mock('./CommonTypes', () => {
-        return {
-          // Define Function Mock Return Values
-          gameField: jest.fn(() => []),
-        };
-      });
+            // @ts-ignore
+            mockedGame.gameField = initialArray;
 
-      const mock22 = mockDeep<Game>();
+            const gp = new GamePresenter(dummyEl, mockedGame);
+            gp.renderInitialPage();
 
-      // @ts-ignore
-      mock22.gameField.mockReturnValue([]);
 
-      const gp = new GamePresenter(dummyEl, mock22);
-      gp.renderInitialPage();
-      console.log('ddd');
-
-      //
-      // jest.mock('./GameEngine', () => ({
-      //   gameField : () => mockB,
-      //   resizeGameField : () => []
-      // }));
-      //
-      // const mocked = GameEngine as jest.Mocked<typeof GameEngine>;
-      //
-      // const spy = jest.spyOn(storage, 'getCityList');
-      // spy.mockReturnValue(['1', '2']);
-      //
-      //
-      // let g = mocked.prototype ;
-      // const presenter  = new GamePresenter(dummyEl ,  g );
-      //
-      // expect(presenter).toBeDefined();
-      // presenter.renderInitialPage();
-      // expect(mockB).toHaveBeenCalled();
-      //
-      //   const gameEngine = ( GameEngine as jest.MockedClass <typeof GameEngine>);
-      //
-      //   gameEngine.mockReturnValue( () => {
-      //     gameField:  []
-      //   } );
-      //
-      //   gameEngine.mockImplementation( () => {
-      //
-      //     bar: "mocked return for this test";
-      //
-      //   });
+        });
     });
-  });
 });
