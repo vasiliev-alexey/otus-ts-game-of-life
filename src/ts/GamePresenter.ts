@@ -24,60 +24,32 @@ export class GamePresenter implements GameView {
     this.gameTableBody = this.gameTable.createTBody();
   }
 
+
+
   private renderActionToolBar(): void {
     const actionDiv: HTMLDivElement = document.createElement('div');
     actionDiv.classList.add('actionPanel');
 
-    const speedRanger = document.createElement('input');
-    speedRanger.type = 'range';
-    speedRanger.step = String(100);
-    speedRanger.max = String(1000);
-    speedRanger.min = String(100);
-    speedRanger.value = '500';
-    speedRanger.defaultValue = '500';
-    speedRanger.id = 'speedRanger';
+    const speedRanger = document.querySelector<HTMLInputElement>('#speedRanger')!;
 
     speedRanger.addEventListener('change', (e) => {
       const ranger = e.target as HTMLInputElement;
-
-      this.runGame(+ranger.value);
+      if (this.intervalHolder > 0) {
+        console.log('===', this.intervalHolder);
+        this.runGame(+ranger.value);
+      }
     });
 
-    const startButton = document.createElement('input');
-    startButton.type = 'button';
-    startButton.value = 'Start';
-    actionDiv.append(startButton);
+    const startButton = document.querySelector<HTMLInputElement>('.startBtn') !;
 
     startButton.addEventListener('click', (ev) => {
       ev.preventDefault();
       this.runGame(+speedRanger.value);
     });
 
-    const heightSize = document.createElement('input');
-    heightSize.id = 'heightSize';
-    const heightSizeLabel = document.createElement('label');
-    heightSizeLabel.htmlFor = heightSize.id;
-    heightSizeLabel.innerText = 'Высота поля';
-    heightSize.type = 'number';
-    heightSize.value = String(10);
-
-    actionDiv.append(heightSizeLabel);
-    actionDiv.append(heightSize);
-
-    const weightSize = document.createElement('input');
-    weightSize.type = 'number';
-    weightSize.value = String(10);
-    weightSize.id = 'weightSize';
-    const weightSizeLabel = document.createElement('label');
-    weightSizeLabel.htmlFor = weightSize.id;
-    weightSizeLabel.innerText = 'Ширина поля';
-    actionDiv.append(weightSizeLabel);
-    actionDiv.append(weightSize);
-
-    const resizeButton = document.createElement('input');
-    resizeButton.type = 'button';
-    resizeButton.value = 'Resize';
-    actionDiv.append(resizeButton);
+    const resizeButton = document.querySelector<HTMLInputElement>('.resizeBtn')!;
+    const weightSize = document.querySelector<HTMLInputElement>('#weightSize')!;
+    const heightSize = document.querySelector<HTMLInputElement>('#heightSize')!;
 
     resizeButton.addEventListener('click', (ev) => {
       ev.preventDefault();
@@ -85,25 +57,25 @@ export class GamePresenter implements GameView {
       const w = +weightSize.value;
       const h = +heightSize.value;
 
-      this.gameEngine.resizeGameField(h, w);
-      this.renderGameTable();
+      if (w < 3 || h < 3) {
+         alert("Ширина или высота игрового поля в недопустимом  диапазоне");
+      } else {
+        this.gameEngine.resizeGameField(h, w);
+        this.renderGameTable();
+      }
     });
-
-    actionDiv.append(speedRanger);
-
-    this.rootElement.append(actionDiv);
   }
 
   private runGame(timeout: number): void {
     clearInterval(this.intervalHolder);
     // @ts-ignore
     this.intervalHolder = setInterval(() => {
-      const rezult = this.gameEngine.stepGame();
+      const result = this.gameEngine.stepGame();
 
       this.renderGameTable();
 
-      if (rezult.isGameOver === true) {
-        alert('game end');
+      if (result.isGameOver === true) {
+        alert('game over');
         clearInterval(this.intervalHolder);
       }
     }, timeout);
@@ -119,7 +91,6 @@ export class GamePresenter implements GameView {
       const row = this.gameTableBody.insertRow(index);
       r.forEach((cellState) => {
         const cell = row.insertCell();
-
         cell.classList.add(cellState === 0 ? CellClass.LIVE : CellClass.DEAD);
       });
     });
@@ -133,7 +104,6 @@ export class GamePresenter implements GameView {
       if (e.target instanceof HTMLTableCellElement) {
         clearInterval(this.intervalHolder);
         const row = e.target.parentNode as HTMLTableRowElement;
-
         this.gameEngine.togglePoint(row.rowIndex, e.target.cellIndex);
         this.renderGameTable();
       }
