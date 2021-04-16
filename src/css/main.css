@@ -17,10 +17,21 @@ table td {
 }
 
 .actionPanel {
-  /*padding: 10px;*/
   margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 input {
   margin: 10px;
+}
+
+.center-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
 }

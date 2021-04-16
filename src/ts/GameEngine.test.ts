@@ -7,12 +7,12 @@ function getInitialArray(
   cols: number,
   initialValue?: CellState
 ): Playground {
-  const rez: Playground = [];
+  const result: Playground = [];
 
   for (let i = 0; i < rows; i += 1) {
-    rez.push(Array<CellState>(cols).fill(initialValue ?? 0));
+    result.push(Array<CellState>(cols).fill(initialValue ?? 0));
   }
-  return rez;
+  return result;
 }
 
 const initialArray = [
@@ -253,12 +253,5 @@ describe('GameEngine', () => {
       [0, 0, 0],
       [0, 0, 0],
     ]);
-  });
-
-  describe('test class', () => {
-    it('is a dd', () => {
-      // const t = new GameEngine(initialArray);
-      // console.log(t.gameField.length);
-    });
   });
 });

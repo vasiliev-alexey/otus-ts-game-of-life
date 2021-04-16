@@ -56,14 +56,7 @@ export class GameEngine implements Game {
   }
 
   public stepGame(): GameResult {
-    // - Если клетка жива и у нее 2−3 живых соседа, то она остается живой, иначе умирает.
-    // - Если клетка мертва и у нее 3 живых соседа, то она становится живой, иначе остается мертвой.
-    //
-    // const upperY = this.gameField.length-1;
-    // const upperX = this.gameField[0].length-1;
-
     let isChanged = false;
-
     this.gameField = this.gameField.map((row, indY, arr) =>
       row.map((c, indX) => {
         const newCellState = GameEngine.newState(indY, indX, c, arr);
@@ -74,7 +67,6 @@ export class GameEngine implements Game {
         return newCellState;
       })
     );
-
     return { gameArea: this.gameField, isGameOver: !isChanged };
   }
 

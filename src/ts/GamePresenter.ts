@@ -10,10 +10,9 @@ export interface GameView {
 }
 
 export class GamePresenter implements GameView {
+
   private readonly gameTable: HTMLTableElement;
-
   private gameTableBody: HTMLTableSectionElement;
-
   private intervalHolder: number = 0;
 
   public constructor(
@@ -24,30 +23,31 @@ export class GamePresenter implements GameView {
     this.gameTableBody = this.gameTable.createTBody();
   }
 
-
-
   private renderActionToolBar(): void {
     const actionDiv: HTMLDivElement = document.createElement('div');
     actionDiv.classList.add('actionPanel');
 
-    const speedRanger = document.querySelector<HTMLInputElement>('#speedRanger')!;
+    const speedRanger = document.querySelector<HTMLInputElement>(
+      '#speedRanger'
+    )!;
 
     speedRanger.addEventListener('change', (e) => {
       const ranger = e.target as HTMLInputElement;
       if (this.intervalHolder > 0) {
-        console.log('===', this.intervalHolder);
         this.runGame(+ranger.value);
       }
     });
 
-    const startButton = document.querySelector<HTMLInputElement>('.startBtn') !;
+    const startButton = document.querySelector<HTMLInputElement>('.startBtn')!;
 
     startButton.addEventListener('click', (ev) => {
       ev.preventDefault();
       this.runGame(+speedRanger.value);
     });
 
-    const resizeButton = document.querySelector<HTMLInputElement>('.resizeBtn')!;
+    const resizeButton = document.querySelector<HTMLInputElement>(
+      '.resizeBtn'
+    )!;
     const weightSize = document.querySelector<HTMLInputElement>('#weightSize')!;
     const heightSize = document.querySelector<HTMLInputElement>('#heightSize')!;
 
@@ -58,7 +58,7 @@ export class GamePresenter implements GameView {
       const h = +heightSize.value;
 
       if (w < 3 || h < 3) {
-         alert("Ширина или высота игрового поля в недопустимом  диапазоне");
+        alert('Ширина или высота игрового поля в недопустимом  диапазоне');
       } else {
         this.gameEngine.resizeGameField(h, w);
         this.renderGameTable();
@@ -97,9 +97,6 @@ export class GamePresenter implements GameView {
   }
 
   public renderInitialPage(): void {
-    const gameField = document.createElement('div');
-    this.gameTable.createTHead();
-
     this.gameTable.addEventListener('click', (e) => {
       if (e.target instanceof HTMLTableCellElement) {
         clearInterval(this.intervalHolder);
@@ -108,9 +105,7 @@ export class GamePresenter implements GameView {
         this.renderGameTable();
       }
     });
-
     this.rootElement.append(this.gameTable);
-    this.rootElement.append(gameField);
     this.renderGameTable();
     this.renderActionToolBar();
   }
