@@ -5,25 +5,24 @@
     <title>Game of life</title>
   <script defer src="index.js"></script></head>
   <body>
-  <div class="actionPanel">
-    <input class="startBtn" type="button" value="Start" />
-    <label for="heightSize">Высота поля</label>
-    <input id="heightSize" type="number" min="3" value="10" />
-    <label for="weightSize">Ширина поля</label>
-    <input type="number" id="weightSize" min="3" value="10" />
-    <input type="button" class="resizeBtn" value="Resize" />
-    <label for="speedRanger">Быстрее</label>
-    <input
-            type="range"
-            step="100"
-            max="1000"
-            min="100"
-            value="500"
-            id="speedRanger"
-    />
-    <label for="speedRanger">Медленнее</label>
-  </div>
-    <div class="gameRoot center-screen">
+    <div class="actionPanel">
+      <input class="startBtn" type="button" value="Start" />
+      <label for="heightSize">Высота поля</label>
+      <input id="heightSize" type="number" min="3" value="10" />
+      <label for="weightSize">Ширина поля</label>
+      <input type="number" id="weightSize" min="3" value="10" />
+      <input type="button" class="resizeBtn" value="Resize" />
+      <label for="speedRanger">Быстрее</label>
+      <input
+        type="range"
+        step="100"
+        max="1000"
+        min="100"
+        value="500"
+        id="speedRanger"
+      />
+      <label for="speedRanger">Медленнее</label>
     </div>
+    <div class="gameRoot center-screen"></div>
   </body>
 </html>
