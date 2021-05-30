@@ -10,7 +10,6 @@ export interface GameView {
 }
 
 export class GamePresenter implements GameView {
-
   private readonly gameTable: HTMLTableElement;
   private gameTableBody: HTMLTableSectionElement;
   private intervalHolder: number = 0;
@@ -24,9 +23,6 @@ export class GamePresenter implements GameView {
   }
 
   private renderActionToolBar(): void {
-    const actionDiv: HTMLDivElement = document.createElement('div');
-    actionDiv.classList.add('actionPanel');
-
     const speedRanger = document.querySelector<HTMLInputElement>(
       '#speedRanger'
     )!;

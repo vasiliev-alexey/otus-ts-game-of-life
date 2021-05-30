@@ -8,6 +8,7 @@ export class GameEngine implements Game {
     return this.gameField;
   }
   private _gameField: Playground = [];
+  private readonly initialGameSize: number = 10;
 
   get gameField(): Playground {
     return this._gameField;
@@ -23,8 +24,10 @@ export class GameEngine implements Game {
     } else {
       this.gameField = [];
 
-      for (let i = 0; i < (height ?? 10); i += 1) {
-        this.gameField.push(Array<CellState>(weight ?? 10).fill(0));
+      for (let i = 0; i < (height ?? this.initialGameSize); i += 1) {
+        this.gameField.push(
+          Array<CellState>(weight ?? this.initialGameSize).fill(0)
+        );
       }
     }
 
