@@ -12,7 +12,7 @@ export interface GameView {
 export class GamePresenter implements GameView {
   private readonly gameTable: HTMLTableElement;
   private gameTableBody: HTMLTableSectionElement;
-  private intervalHolder: number = 0;
+  private intervalHolder: null | ReturnType<typeof setTimeout> = null;
 
   public constructor(
     private rootElement: HTMLDivElement,
@@ -27,10 +27,9 @@ export class GamePresenter implements GameView {
       '#speedRanger'
     )!;
 
-    speedRanger.addEventListener('change', (e) => {
-      const ranger = e.target as HTMLInputElement;
-      if (this.intervalHolder > 0) {
-        this.runGame(+ranger.value);
+    speedRanger.addEventListener('change', () => {
+      if (this.intervalHolder) {
+        this.runGame(+speedRanger.value);
       }
     });
 
@@ -63,16 +62,16 @@ export class GamePresenter implements GameView {
   }
 
   private runGame(timeout: number): void {
-    clearInterval(this.intervalHolder);
-    // @ts-ignore
-    this.intervalHolder = setInterval(() => {
+    this.intervalHolder = setTimeout(() => {
       const result = this.gameEngine.stepGame();
 
       this.renderGameTable();
 
       if (result.isGameOver === true) {
         alert('game over');
-        clearInterval(this.intervalHolder);
+        if (this.intervalHolder) {
+          clearInterval(this.intervalHolder);
+        }
       }
     }, timeout);
   }
@@ -95,7 +94,9 @@ export class GamePresenter implements GameView {
   public renderInitialPage(): void {
     this.gameTable.addEventListener('click', (e) => {
       if (e.target instanceof HTMLTableCellElement) {
-        clearInterval(this.intervalHolder);
+        if (this.intervalHolder) {
+          clearInterval(this.intervalHolder);
+        }
         const row = e.target.parentNode as HTMLTableRowElement;
         this.gameEngine.togglePoint(row.rowIndex, e.target.cellIndex);
         this.renderGameTable();

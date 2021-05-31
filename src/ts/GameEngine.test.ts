@@ -36,7 +36,7 @@ describe('GameEngine', () => {
     });
   });
 
-  it('has a function gameField', () => {
+  it('has a property gameField', () => {
     const gameEngine = new GameEngine(getInitialArray(10, 10));
     expect(gameEngine.gameField).toBeInstanceOf(Array);
     expect(gameEngine.gameField).toEqual(initialArray);
@@ -80,27 +80,42 @@ describe('GameEngine', () => {
 
   it('game engine test step', () => {
     const gameEngine = new GameEngine(getInitialArray(5, 5));
-    expect(gameEngine.stepGame).toBeInstanceOf(Function);
     gameEngine.togglePoint(0, 0);
     gameEngine.togglePoint(0, 1);
     gameEngine.togglePoint(1, 0);
     gameEngine.stepGame();
+
+    expect(gameEngine.gameField[0][0]).toEqual(1);
+    expect(gameEngine.gameField[0][1]).toEqual(1);
+    expect(gameEngine.gameField[1][0]).toEqual(1);
+    expect(gameEngine.gameField[1][1]).toEqual(1);
+    expect(gameEngine.gameField[0][2]).toEqual(0);
   });
 
   it('game engine test step zero cell active', () => {
     const gameEngine = new GameEngine(getInitialArray(3, 3));
-    expect(gameEngine.stepGame).toBeInstanceOf(Function);
     gameEngine.togglePoint(0, 0);
     gameEngine.stepGame();
+    expect(gameEngine.gameField.length).toEqual(3);
+    expect(gameEngine.gameField).toEqual([
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+    ]);
   });
 
-  it('game engine test step zero 2 cell active', () => {
+  it('game engine test step zero 0 cell active', () => {
     const gameEngine = new GameEngine(getInitialArray(3, 3));
 
     gameEngine.togglePoint(0, 0);
     gameEngine.togglePoint(0, 1);
-    log(gameEngine.gameField);
     gameEngine.stepGame();
+    log(gameEngine.gameField);
+    expect(gameEngine.gameField).toEqual([
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+    ]);
   });
 
   it('game engine test step zero 3 cell active', () => {
@@ -109,8 +124,12 @@ describe('GameEngine', () => {
     gameEngine.togglePoint(0, 0);
     gameEngine.togglePoint(0, 1);
     gameEngine.togglePoint(1, 0);
-    log(gameEngine.gameField);
     gameEngine.stepGame();
+    expect(gameEngine.gameField).toEqual([
+      [1, 1, 0],
+      [1, 1, 0],
+      [0, 0, 0],
+    ]);
   });
 
   it('game engine test step zero 3 cell active up', () => {
