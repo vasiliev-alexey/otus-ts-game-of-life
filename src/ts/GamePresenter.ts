@@ -62,7 +62,7 @@ export class GamePresenter implements GameView {
   }
 
   private runGame(timeout: number): void {
-    this.intervalHolder = setTimeout(() => {
+    this.intervalHolder = setInterval(() => {
       const result = this.gameEngine.stepGame();
 
       this.renderGameTable();
