@@ -10,6 +10,8 @@ export class GameEngine implements Game {
   private _gameField: Playground = [];
   private readonly initialGameSize: number = 10;
 
+  private gameSteps: Set<string> = new Set<string>();
+
   get gameField(): Playground {
     return this._gameField;
   }
@@ -19,6 +21,7 @@ export class GameEngine implements Game {
   }
 
   public constructor(gameField?: Playground, height?: number, weight?: number) {
+    this.gameSteps.clear();
     if (gameField !== undefined) {
       this.gameField = gameField;
     } else {
@@ -70,7 +73,16 @@ export class GameEngine implements Game {
         return newCellState;
       })
     );
-    return { gameArea: this.gameField, isGameOver: !isChanged };
+
+    const positionHash = this.gameField.map((e) => e.join('')).join('');
+    const repeatState: boolean = this.gameSteps.has(positionHash);
+
+    if (repeatState) {
+      this.gameSteps.clear();
+    } else {
+      this.gameSteps.add(positionHash);
+    }
+    return { gameArea: this.gameField, isGameOver: !isChanged || repeatState };
   }
 
   public resizeGameField(height: number, width: number): Playground {
